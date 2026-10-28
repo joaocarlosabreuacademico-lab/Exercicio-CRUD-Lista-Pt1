@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -5,8 +6,9 @@
     <title>Exercício CRUD Lista</title>
 </head>
 <body>
+
     <h1>Exercício CRUD Lista</h1>
-    <p>Abra o menu do programa nas janelas que aparecerem.</p>
+    <p>Utilize o menu para realizar as operações.</p>
 
     <script>
         function criarNo(dado) {
@@ -23,31 +25,30 @@
         }
 
         function lerDado(mensagem) {
-            const dado = window.prompt(mensagem);
+            let dado = prompt(mensagem);
 
-            if (dado === null || dado.trim() === "") {
+            if (dado === null || dado === "") {
                 alert("Operação cancelada ou dado vazio.");
                 return null;
             }
 
-            return dado.trim();
+            return dado;
         }
 
         function lerPosicao(mensagem) {
-            const entrada = window.prompt(mensagem);
+            let entrada = prompt(mensagem);
 
             if (entrada === null) {
                 return null;
             }
 
-            const posicao = Number(entrada);
+            let posicao = Number(entrada);
 
-            if (
-                entrada.trim() === "" ||
+            if (entrada === "" ||
                 !Number.isInteger(posicao) ||
-                posicao < 0
-            ) {
-                alert("Digite um número inteiro igual ou maior que zero.");
+                posicao < 0) {
+
+                alert("Digite uma posição válida.");
                 return null;
             }
 
@@ -65,7 +66,9 @@
             let posicao = 0;
 
             while (atual !== null) {
-                resultado += "[" + posicao + "] " + atual.dado + "\n";
+                resultado += "[" + posicao + "] " +
+                             atual.dado + "\n";
+
                 atual = atual.proximo;
                 posicao++;
             }
@@ -74,11 +77,11 @@
         }
 
         function inserirNoFim(lista, dado) {
-            const novoNo = criarNo(dado);
+            let novoNo = criarNo(dado);
 
             if (lista.inicio === null) {
                 lista.inicio = novoNo;
-                return true;
+                return;
             }
 
             let atual = lista.inicio;
@@ -88,11 +91,10 @@
             }
 
             atual.proximo = novoNo;
-            return true;
         }
 
         function inserirNaPosicao(lista, dado, posicao) {
-            const novoNo = criarNo(dado);
+            let novoNo = criarNo(dado);
 
             if (posicao === 0) {
                 novoNo.proximo = lista.inicio;
@@ -109,7 +111,7 @@
             }
 
             if (atual === null) {
-                alert("Posição inválida. Confira o tamanho da lista.");
+                alert("Posição inválida.");
                 return false;
             }
 
@@ -123,7 +125,7 @@
             let opcao;
 
             while (true) {
-                opcao = window.prompt(
+                opcao = prompt(
                     "CRUD - LISTA LIGADA\n\n" +
                     "[1] Listar todos\n" +
                     "[2] Inserir no fim\n" +
@@ -137,39 +139,43 @@
                     break;
                 }
 
-                switch (opcao.trim()) {
+                switch (opcao) {
                     case "1":
                         listarTodos(lista);
                         break;
 
-                    case "2": {
-                        const dado = lerDado("Digite o elemento:");
+                    case "2":
+                        let dadoFim = lerDado(
+                            "Digite o elemento:"
+                        );
 
-                        if (dado !== null) {
-                            inserirNoFim(lista, dado);
+                        if (dadoFim !== null) {
+                            inserirNoFim(lista, dadoFim);
                             alert("Elemento inserido no final.");
                         }
                         break;
-                    }
 
-                    case "3": {
-                        const dado = lerDado("Digite o elemento:");
+                    case "3":
+                        let dadoPosicao = lerDado(
+                            "Digite o elemento:"
+                        );
 
-                        if (dado === null) {
+                        if (dadoPosicao === null) {
                             break;
                         }
 
-                        const posicao = lerPosicao(
+                        let posicao = lerPosicao(
                             "Digite a posição desejada (começando em 0):"
                         );
 
                         if (posicao !== null) {
-                            if (inserirNaPosicao(lista, dado, posicao)) {
-                                alert("Elemento inserido na posição " + posicao + ".");
+                            if (inserirNaPosicao(
+                                lista, dadoPosicao, posicao
+                            )) {
+                                alert("Elemento inserido com sucesso.");
                             }
                         }
                         break;
-                    }
 
                     case "4":
                         alert("Programa encerrado.");
@@ -181,8 +187,10 @@
             }
         }
 
-        const lista = criarLista();
+        let lista = criarLista();
         menu(lista);
+
     </script>
+
 </body>
 </html>
